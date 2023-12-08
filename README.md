@@ -8,8 +8,8 @@ The Paste from Word plugin extends the built-in Paste plugin, so both must be en
 
 ```js
 tinymce.init({
-  selector: 'textarea', // change this value according to your HTML
-  plugins: 'paste paste_from_word'
+  selector: "textarea", // change this value according to your HTML
+  plugins: "paste paste_from_word",
 });
 ```
 
@@ -17,8 +17,8 @@ tinymce.init({
 
 These settings affect the execution of the `paste_from_word` plugin.
 
-* `pastefromword_valid_elements` (default long list...)
-* `pastefromword_convert_fake_lists` (default true)
+- `pastefromword_valid_elements` (default long list...)
+- `pastefromword_convert_fake_lists` (default true)
 
 TBD
 
@@ -26,4 +26,3 @@ Add note about `paste_webkit_styles` and `paste_remove_styles_if_webkit` (Paste 
 
 - https://www.tiny.cloud/docs/tinymce/6/copy-and-paste/#paste_webkit_styles
 - https://www.tiny.cloud/docs/tinymce/6/copy-and-paste/#paste_remove_styles_if_webkit
-

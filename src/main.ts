@@ -1,4 +1,4 @@
-import Plugin from './plugin/main';
+import Plugin from "./plugin/main";
 
 Plugin();
 

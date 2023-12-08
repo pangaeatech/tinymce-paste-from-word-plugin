@@ -1,24 +1,47 @@
 {
-  "extends": "plugin:@tinymce/editor",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
-    "project": [
-      "./tsconfig.json"
-    ]
+    "project": ["./tsconfig.json"]
   },
+  "plugins": ["@typescript-eslint"],
   "rules": {
-    "@typescript-eslint/camelcase": "off", // leave off
+    "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/member-ordering": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-shadow": "off",
     "@typescript-eslint/no-this-alias": "off",
+    "@typescript-eslint/no-unsafe-argument": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-member-access": "off",
+    "@typescript-eslint/no-unsafe-return": "off",
     "@typescript-eslint/prefer-for-of": "off",
     "@typescript-eslint/prefer-regexp-exec": "off",
+    "no-case-declarations": "off",
     "no-empty": "off",
     "no-underscore-dangle": "off",
+    "no-useless-escape": "off",
     "one-var": "off",
     "prefer-rest-params": "off",
     "prefer-spread": "off",
     "max-len": ["warn", 260]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/__tests__/**", "**/__mocks__/**"],
+      "rules": {
+        "max-len": "off"
+      }
+    }
+  ]
 }

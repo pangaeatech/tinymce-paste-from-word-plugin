@@ -1,35 +1,35 @@
 /**
- * Copyright (c) Tiny Technologies, Inc. and Pangaea Information Technologies, Ltd. 
+ * Copyright (c) Tiny Technologies, Inc. and Pangaea Information Technologies, Ltd.
  * All rights reserved.
  * Licensed under the LGPL or a commercial license.
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  */
 
-import { Unicode } from '@ephox/katamari';
 import tinymce, { AstNode, Editor } from "tinymce";
 
-import { filter } from './Utils';
+import { filter } from "./Utils";
 
 interface WordAstNode extends AstNode {
   _listLevel?: number;
   _listIgnore?: boolean;
 }
 
-const defaultValidElements = (
-  '-strong/b,-em/i,-u,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6,' +
-  '-p/div,-a[href|name],sub,sup,strike,br,del,table[width],tr,' +
-  'td[colspan|rowspan|width],th[colspan|rowspan|width],thead,tfoot,tbody'
-);
+const defaultValidElements =
+  "-strong/b,-em/i,-u,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6," +
+  "-p/div,-a[href|name],sub,sup,strike,br,del,table[width],tr," +
+  "td[colspan|rowspan|width],th[colspan|rowspan|width],thead,tfoot,tbody";
 
 /**
  * Checks if the specified content is from any of the following sources: MS Word/Office 365/Google docs.
  */
 const isWordContent = (content: string): boolean => {
   return (
-    (/<font face="Times New Roman"|class="?Mso|style="[^"]*\bmso-|style='[^']*\bmso-|w:WordDocument/i).test(content) ||
-    (/class="OutlineElement/).test(content) ||
-    (/id="?docs\-internal\-guid\-/.test(content))
+    /<font face="Times New Roman"|class="?Mso|style="[^"]*\bmso-|style='[^']*\bmso-|w:WordDocument/i.test(
+      content,
+    ) ||
+    /class="OutlineElement/.test(content) ||
+    /id="?docs\-internal\-guid\-/.test(content)
   );
 };
 
@@ -40,16 +40,16 @@ const isNumericList = (text: string): boolean => {
   let found = false;
 
   const patterns = [
-    /^[IVXLMCD]+\.[ \u00a0]/,  // Roman upper case
-    /^[ivxlmcd]+\.[ \u00a0]/,  // Roman lower case
-    /^[a-z]{1,2}[\.\)][ \u00a0]/,  // Alphabetical a-z
-    /^[A-Z]{1,2}[\.\)][ \u00a0]/,  // Alphabetical A-Z
-    /^[0-9]+\.[ \u00a0]/,          // Numeric lists
+    /^[IVXLMCD]+\.[ \u00a0]/, // Roman upper case
+    /^[ivxlmcd]+\.[ \u00a0]/, // Roman lower case
+    /^[a-z]{1,2}[\.\)][ \u00a0]/, // Alphabetical a-z
+    /^[A-Z]{1,2}[\.\)][ \u00a0]/, // Alphabetical A-Z
+    /^[0-9]+\.[ \u00a0]/, // Numeric lists
     /^[\u3007\u4e00\u4e8c\u4e09\u56db\u4e94\u516d\u4e03\u516b\u4e5d]+\.[ \u00a0]/, // Japanese
-    /^[\u58f1\u5f10\u53c2\u56db\u4f0d\u516d\u4e03\u516b\u4e5d\u62fe]+\.[ \u00a0]/  // Chinese
+    /^[\u58f1\u5f10\u53c2\u56db\u4f0d\u516d\u4e03\u516b\u4e5d\u62fe]+\.[ \u00a0]/, // Chinese
   ];
 
-  text = text.replace(/^[\u00a0 ]+/, '');
+  text = text.replace(/^[\u00a0 ]+/, "");
 
   tinymce.util.Tools.each(patterns, (pattern) => {
     if (pattern.test(text)) {
@@ -70,10 +70,12 @@ const isBulletList = (text: string): boolean =>
  * @param {tinymce.html.Node} node Root node to convert children of.
  */
 const convertFakeListsToProperLists = (node: WordAstNode) => {
-  let currentListNode: WordAstNode, prevListNode: WordAstNode, lastLevel = 1;
+  let currentListNode: WordAstNode,
+    prevListNode: WordAstNode,
+    lastLevel = 1;
 
   const getText = (node: WordAstNode): string => {
-    let txt = '';
+    let txt = "";
 
     if (node.type === 3) {
       return node.value;
@@ -91,7 +93,7 @@ const convertFakeListsToProperLists = (node: WordAstNode) => {
   const trimListStart = (node: WordAstNode, regExp: RegExp): boolean => {
     if (node.type === 3) {
       if (regExp.test(node.value)) {
-        node.value = node.value.replace(regExp, '');
+        node.value = node.value.replace(regExp, "");
         return false;
       }
     }
@@ -120,7 +122,11 @@ const convertFakeListsToProperLists = (node: WordAstNode) => {
     }
   };
 
-  const convertParagraphToLi = (paragraphNode: WordAstNode, listName: string, start?: number): void => {
+  const convertParagraphToLi = (
+    paragraphNode: WordAstNode,
+    listName: string,
+    start?: number,
+  ): void => {
     const level = paragraphNode._listLevel || lastLevel;
 
     // Handle list nesting
@@ -142,7 +148,7 @@ const convertFakeListsToProperLists = (node: WordAstNode) => {
       currentListNode = new tinymce.html.Node(listName, 1);
 
       if (start > 1) {
-        currentListNode.attr('start', '' + start);
+        currentListNode.attr("start", "" + start);
       }
 
       paragraphNode.wrap(currentListNode);
@@ -150,7 +156,7 @@ const convertFakeListsToProperLists = (node: WordAstNode) => {
       currentListNode.append(paragraphNode);
     }
 
-    paragraphNode.name = 'li';
+    paragraphNode.name = "li";
 
     // Append list to previous list if it exists
     if (level > lastLevel && prevListNode) {
@@ -170,12 +176,12 @@ const convertFakeListsToProperLists = (node: WordAstNode) => {
   // altering them in the loop below.
   const elements = [];
   let child = node.firstChild;
-  while (typeof child !== 'undefined' && child !== null) {
+  while (typeof child !== "undefined" && child !== null) {
     elements.push(child);
 
     child = child.walk();
     if (child !== null) {
-      while (typeof child !== 'undefined' && child.parent !== node) {
+      while (typeof child !== "undefined" && child.parent !== node) {
         child = child.walk();
       }
     }
@@ -184,13 +190,13 @@ const convertFakeListsToProperLists = (node: WordAstNode) => {
   for (let i = 0; i < elements.length; i++) {
     node = elements[i];
 
-    if (node.name === 'p' && node.firstChild) {
+    if (node.name === "p" && node.firstChild) {
       // Find first text node in paragraph
       const nodeText = getText(node);
 
       // Detect unordered lists look for bullets
       if (isBulletList(nodeText)) {
-        convertParagraphToLi(node, 'ul');
+        convertParagraphToLi(node, "ul");
         continue;
       }
 
@@ -203,13 +209,13 @@ const convertFakeListsToProperLists = (node: WordAstNode) => {
           start = parseInt(matches[1], 10);
         }
 
-        convertParagraphToLi(node, 'ol', start);
+        convertParagraphToLi(node, "ol", start);
         continue;
       }
 
       // Convert paragraphs marked as lists but doesn't look like anything
       if (node._listLevel) {
-        convertParagraphToLi(node, 'ul', 1);
+        convertParagraphToLi(node, "ul", 1);
         continue;
       }
 
@@ -225,14 +231,18 @@ const convertFakeListsToProperLists = (node: WordAstNode) => {
   }
 };
 
-const filterStyles = (editor: Editor, node: WordAstNode, styleValue: string): string | null => {
+const filterStyles = (
+  editor: Editor,
+  node: WordAstNode,
+  styleValue: string,
+): string | null => {
   const outputStyles: Record<string, string> = {};
-  const styles = editor.dom.parseStyle(styleValue);
+  const styles = tinymce.DOM.parseStyle(styleValue);
 
   tinymce.util.Tools.each(styles, (value, name) => {
     // Convert various MS styles to W3C styles
     switch (name) {
-      case 'mso-list':
+      case "mso-list":
         // Parse out list indent level for lists
         const matches = /\w+ \w+([0-9]+)/i.exec(styleValue);
         if (matches) {
@@ -248,32 +258,32 @@ const filterStyles = (editor: Editor, node: WordAstNode, styleValue: string): st
 
         break;
 
-      case 'horiz-align':
-        name = 'text-align';
+      case "horiz-align":
+        name = "text-align";
         break;
 
-      case 'vert-align':
-        name = 'vertical-align';
+      case "vert-align":
+        name = "vertical-align";
         break;
 
-      case 'font-color':
-      case 'mso-foreground':
-        name = 'color';
+      case "font-color":
+      case "mso-foreground":
+        name = "color";
         break;
 
-      case 'mso-background':
-      case 'mso-highlight':
-        name = 'background';
+      case "mso-background":
+      case "mso-highlight":
+        name = "background";
         break;
 
-      case 'font-weight':
-      case 'font-style':
-        if (value !== 'normal') {
+      case "font-weight":
+      case "font-style":
+        if (value !== "normal") {
           outputStyles[name] = value;
         }
         return;
 
-      case 'mso-element':
+      case "mso-element":
         // Remove track changes code
         if (/^(comment|comment-list)$/i.test(value)) {
           node.remove();
@@ -283,13 +293,13 @@ const filterStyles = (editor: Editor, node: WordAstNode, styleValue: string): st
         break;
     }
 
-    if (name.indexOf('mso-comment') === 0) {
+    if (name.indexOf("mso-comment") === 0) {
       node.remove();
       return;
     }
 
     // Never allow mso- prefixed names
-    if (name.indexOf('mso-') === 0) {
+    if (name.indexOf("mso-") === 0) {
       return;
     }
 
@@ -298,19 +308,19 @@ const filterStyles = (editor: Editor, node: WordAstNode, styleValue: string): st
   });
 
   // Convert bold style to "b" element
-  if (/(bold)/i.test(outputStyles['font-weight'])) {
-    delete outputStyles['font-weight'];
-    node.wrap(new tinymce.html.Node('b', 1));
+  if (/(bold)/i.test(outputStyles["font-weight"])) {
+    delete outputStyles["font-weight"];
+    node.wrap(new tinymce.html.Node("b", 1));
   }
 
   // Convert italic style to "i" element
-  if (/(italic)/i.test(outputStyles['font-style'])) {
-    delete outputStyles['font-style'];
-    node.wrap(new tinymce.html.Node('i', 1));
+  if (/(italic)/i.test(outputStyles["font-style"])) {
+    delete outputStyles["font-style"];
+    node.wrap(new tinymce.html.Node("i", 1));
   }
 
   // Serialize the styles and see if there is something left to keep
-  const outputStyle = editor.dom.serializeStyle(outputStyles, node.name);
+  const outputStyle = tinymce.DOM.serializeStyle(outputStyles, node.name);
   if (outputStyle) {
     return outputStyle;
   }
@@ -335,27 +345,36 @@ const preProcess = (editor: Editor, content: string): string => {
     /<(!|script[^>]*>.*?<\/script(?=[>\s])|\/?(\?xml(:\w+)?|img|meta|link|style|\w:\w+)(?=[\s\/>]))[^>]*>/gi,
 
     // Convert <s> into <strike> for line-though
-    [ /<(\/?)s>/gi, '<$1strike>' ],
+    [/<(\/?)s>/gi, "<$1strike>"],
 
     // Replace nsbp entities to char since it's easier to handle
-    [ /&nbsp;/gi, Unicode.nbsp ],
+    [/&nbsp;/gi, "\u00A0"],
 
     // Convert <span style="mso-spacerun:yes">___</span> to string of alternating
     // breaking/non-breaking spaces of same length
-    [ /<span\s+style\s*=\s*"\s*mso-spacerun\s*:\s*yes\s*;?\s*"\s*>([\s\u00a0]*)<\/span>/gi,
+    [
+      /<span\s+style\s*=\s*"\s*mso-spacerun\s*:\s*yes\s*;?\s*"\s*>([\s\u00a0]*)<\/span>/gi,
       (str, spaces) => {
-        return (spaces.length > 0) ?
-          spaces.replace(/./, ' ').slice(Math.floor(spaces.length / 2)).split('').join(Unicode.nbsp) : '';
-      }
-    ]
+        return spaces.length > 0
+          ? spaces
+              .replace(/./, " ")
+              .slice(Math.floor(spaces.length / 2))
+              .split("")
+              .join("\u00A0")
+          : "";
+      },
+    ],
   ]);
 
-  const validElements = editor.getParam('pastefromword_valid_elements', defaultValidElements);
+  const validElements = editor.getParam(
+    "pastefromword_valid_elements",
+    defaultValidElements,
+  );
 
   // Setup strict schema
   const schema = tinymce.html.Schema({
     valid_elements: validElements,
-    valid_children: '-li[p]'
+    valid_children: "-li[p]",
   });
 
   // Add style/class attribute to all element rules since the user might have removed them from
@@ -364,12 +383,12 @@ const preProcess = (editor: Editor, content: string): string => {
     /* eslint dot-notation:0*/
     if (!rule.attributes.class) {
       rule.attributes.class = {};
-      rule.attributesOrder.push('class');
+      rule.attributesOrder.push("class");
     }
 
     if (!rule.attributes.style) {
       rule.attributes.style = {};
-      rule.attributesOrder.push('style');
+      rule.attributesOrder.push("style");
     }
   });
 
@@ -377,38 +396,41 @@ const preProcess = (editor: Editor, content: string): string => {
   const domParser = tinymce.html.DomParser({}, schema);
 
   // Filter styles to remove "mso" specific styles and convert some of them
-  domParser.addAttributeFilter('style', (nodes) => {
-    let i = nodes.length, node;
+  domParser.addAttributeFilter("style", (nodes) => {
+    let i = nodes.length,
+      node;
 
     while (i--) {
       node = nodes[i];
-      node.attr('style', filterStyles(editor, node, node.attr('style')));
+      node.attr("style", filterStyles(editor, node, node.attr("style")));
 
       // Remove pointless spans
-      if (node.name === 'span' && node.parent && !node.attributes.length) {
+      if (node.name === "span" && node.parent && !node.attributes.length) {
         node.unwrap();
       }
     }
   });
 
   // Check the class attribute for comments or del items and remove those
-  domParser.addAttributeFilter('class', (nodes) => {
-    let i = nodes.length, node, className;
+  domParser.addAttributeFilter("class", (nodes) => {
+    let i = nodes.length,
+      node,
+      className;
 
     while (i--) {
       node = nodes[i];
 
-      className = node.attr('class');
+      className = node.attr("class");
       if (/^(MsoCommentReference|MsoCommentText|msoDel)$/i.test(className)) {
         node.remove();
       }
 
-      node.attr('class', null);
+      node.attr("class", null);
     }
   });
 
   // Remove all del elements since we don't want the track changes code in the editor
-  domParser.addNodeFilter('del', (nodes) => {
+  domParser.addNodeFilter("del", (nodes) => {
     let i = nodes.length;
 
     while (i--) {
@@ -417,23 +439,26 @@ const preProcess = (editor: Editor, content: string): string => {
   });
 
   // Keep some of the links and anchors
-  domParser.addNodeFilter('a', (nodes) => {
-    let i = nodes.length, node, href, name;
+  domParser.addNodeFilter("a", (nodes) => {
+    let i = nodes.length,
+      node,
+      href,
+      name;
 
     while (i--) {
       node = nodes[i];
-      href = node.attr('href');
-      name = node.attr('name');
+      href = node.attr("href");
+      name = node.attr("name");
 
-      if (href && href.indexOf('#_msocom_') !== -1) {
+      if (href && href.indexOf("#_msocom_") !== -1) {
         node.remove();
         continue;
       }
 
-      if (href && href.indexOf('file://') === 0) {
-        href = href.split('#')[1];
+      if (href && href.indexOf("file://") === 0) {
+        href = href.split("#")[1];
         if (href) {
-          href = '#' + href;
+          href = "#" + href;
         }
       }
 
@@ -448,7 +473,7 @@ const preProcess = (editor: Editor, content: string): string => {
 
         node.attr({
           href,
-          name
+          name,
         });
       }
     }
@@ -458,7 +483,7 @@ const preProcess = (editor: Editor, content: string): string => {
   const rootNode = domParser.parse(content);
 
   // Process DOM
-  if (editor.getParam('pastefromword_convert_fake_lists', true)) {
+  if (editor.getParam("pastefromword_convert_fake_lists", true)) {
     convertFakeListsToProperLists(rootNode);
   }
 
@@ -468,7 +493,4 @@ const preProcess = (editor: Editor, content: string): string => {
   return content;
 };
 
-export {
-  preProcess,
-  isWordContent
-};
+export { preProcess, isWordContent };

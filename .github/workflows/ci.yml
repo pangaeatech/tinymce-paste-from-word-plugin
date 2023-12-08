@@ -3,10 +3,10 @@ concurrency: test-${{ github.ref }}
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -26,13 +26,13 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
-  
+
       - run: npm ci
 
       - run: npm run format:check
-  
+
       - run: npm run build
-  
+
       - run: npm run lint
 
       - run: npm run coverage
