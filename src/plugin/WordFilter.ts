@@ -1,5 +1,6 @@
 /**
- * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Copyright (c) Tiny Technologies, Inc. and Pangaea Information Technologies, Ltd. 
+ * All rights reserved.
  * Licensed under the LGPL or a commercial license.
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
@@ -7,20 +8,25 @@
 
 import { Unicode } from '@ephox/katamari';
 
-import Editor from 'tinymce/core/api/Editor';
+import type Editor from 'tinymce/core/api/Editor';
 import DomParser from 'tinymce/core/api/html/DomParser';
 import AstNode from 'tinymce/core/api/html/Node';
 import Schema from 'tinymce/core/api/html/Schema';
 import HtmlSerializer from 'tinymce/core/api/html/Serializer';
 import Tools from 'tinymce/core/api/util/Tools';
 
-import * as Settings from '../api/Settings';
-import * as Utils from './Utils';
+import { filter } from './Utils';
 
 interface WordAstNode extends AstNode {
   _listLevel?: number;
   _listIgnore?: boolean;
 }
+
+const defaultValidElements = (
+  '-strong/b,-em/i,-u,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6,' +
+  '-p/div,-a[href|name],sub,sup,strike,br,del,table[width],tr,' +
+  'td[colspan|rowspan|width],th[colspan|rowspan|width],thead,tfoot,tbody'
+);
 
 /**
  * This class parses word HTML into proper TinyMCE markup.
@@ -232,7 +238,7 @@ const convertFakeListsToProperLists = (node: WordAstNode) => {
   }
 };
 
-const filterStyles = (editor: Editor, validStyles: Record<string, string> | undefined, node: WordAstNode, styleValue: string): string | null => {
+const filterStyles = (editor: Editor, node: WordAstNode, styleValue: string): string | null => {
   const outputStyles: Record<string, string> = {};
   const styles = editor.dom.parseStyle(styleValue);
 
@@ -300,10 +306,8 @@ const filterStyles = (editor: Editor, validStyles: Record<string, string> | unde
       return;
     }
 
-    // Output only valid styles
-    if (Settings.getRetainStyleProps(editor) === 'all' || (validStyles && validStyles[name])) {
-      outputStyles[name] = value;
-    }
+    // Allow other styles (they will be filtered as webkit styles later)
+    outputStyles[name] = value;
   });
 
   // Convert bold style to "b" element
@@ -327,16 +331,9 @@ const filterStyles = (editor: Editor, validStyles: Record<string, string> | unde
   return null;
 };
 
-const filterWordContent = (editor: Editor, content: string): string => {
-  let validStyles: Record<string, string>;
-
-  const retainStyleProperties = Settings.getRetainStyleProps(editor);
-  if (retainStyleProperties) {
-    validStyles = Tools.makeMap(retainStyleProperties.split(/[, ]/));
-  }
-
+const preProcess = (editor: Editor, content: string): string => {
   // Remove basic Word junk
-  content = Utils.filter(content, [
+  content = filter(content, [
     // Remove apple new line markers
     /<br class="?Apple-interchange-newline"?>/gi,
 
@@ -366,7 +363,7 @@ const filterWordContent = (editor: Editor, content: string): string => {
     ]
   ]);
 
-  const validElements = Settings.getWordValidElements(editor);
+  const validElements = editor.getParam('pastefromword_valid_elements', defaultValidElements);
 
   // Setup strict schema
   const schema = Schema({
@@ -398,7 +395,7 @@ const filterWordContent = (editor: Editor, content: string): string => {
 
     while (i--) {
       node = nodes[i];
-      node.attr('style', filterStyles(editor, validStyles, node, node.attr('style')));
+      node.attr('style', filterStyles(editor, node, node.attr('style')));
 
       // Remove pointless spans
       if (node.name === 'span' && node.parent && !node.attributes.length) {
@@ -474,20 +471,14 @@ const filterWordContent = (editor: Editor, content: string): string => {
   const rootNode = domParser.parse(content);
 
   // Process DOM
-  if (Settings.shouldConvertWordFakeLists(editor)) {
+  if (editor.getParam('pastefromword_convert_fake_lists', true)) {
     convertFakeListsToProperLists(rootNode);
   }
 
   // Serialize DOM back to HTML
-  content = HtmlSerializer({
-    validate: Settings.getValidate(editor)
-  }, schema).serialize(rootNode);
+  content = HtmlSerializer({}, schema).serialize(rootNode);
 
   return content;
-};
-
-const preProcess = (editor: Editor, content: string): string => {
-  return Settings.shouldUseDefaultFilters(editor) ? filterWordContent(editor, content) : content;
 };
 
 export {
