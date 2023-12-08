@@ -1,5 +1,5 @@
 import { isWordContent, preProcess } from "./WordFilter";
-import type Editor from 'tinymce/core/api/Editor';
+import tinymce, { Editor } from "tinymce";
 
 interface PreProcessEvent {
     content: string;
@@ -10,7 +10,7 @@ export default (): void => {
     tinymce.PluginManager.add("paste_from_word", (editor: Editor) => {
         editor.on("PastePreProcess", ({ content }: PreProcessEvent) => {
             if (isWordContent(content)) {
-                event.content = preProcess(editor, content);
+                content = preProcess(editor, content);
             }
         });
 

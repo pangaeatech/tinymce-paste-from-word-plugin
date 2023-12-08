@@ -9,7 +9,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "composite": true,
-    "outDir": "lib",
+    "outDir": "dist",
     "rootDir": ".",
     "baseUrl": ".",
     "forceConsistentCasingInFileNames": true,

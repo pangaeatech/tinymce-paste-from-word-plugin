@@ -7,13 +7,7 @@
  */
 
 import { Unicode } from '@ephox/katamari';
-
-import type Editor from 'tinymce/core/api/Editor';
-import DomParser from 'tinymce/core/api/html/DomParser';
-import AstNode from 'tinymce/core/api/html/Node';
-import Schema from 'tinymce/core/api/html/Schema';
-import HtmlSerializer from 'tinymce/core/api/html/Serializer';
-import Tools from 'tinymce/core/api/util/Tools';
+import tinymce, { AstNode, Editor } from "tinymce";
 
 import { filter } from './Utils';
 
@@ -27,13 +21,6 @@ const defaultValidElements = (
   '-p/div,-a[href|name],sub,sup,strike,br,del,table[width],tr,' +
   'td[colspan|rowspan|width],th[colspan|rowspan|width],thead,tfoot,tbody'
 );
-
-/**
- * This class parses word HTML into proper TinyMCE markup.
- *
- * @class tinymce.pasteplugin.WordFilter
- * @private
- */
 
 /**
  * Checks if the specified content is from any of the following sources: MS Word/Office 365/Google docs.
@@ -64,7 +51,7 @@ const isNumericList = (text: string): boolean => {
 
   text = text.replace(/^[\u00a0 ]+/, '');
 
-  Tools.each(patterns, (pattern) => {
+  tinymce.util.Tools.each(patterns, (pattern) => {
     if (pattern.test(text)) {
       found = true;
       return false;
@@ -152,7 +139,7 @@ const convertFakeListsToProperLists = (node: WordAstNode) => {
 
     if (!currentListNode || currentListNode.name !== listName) {
       prevListNode = prevListNode || currentListNode;
-      currentListNode = new AstNode(listName, 1);
+      currentListNode = new tinymce.html.Node(listName, 1);
 
       if (start > 1) {
         currentListNode.attr('start', '' + start);
@@ -242,7 +229,7 @@ const filterStyles = (editor: Editor, node: WordAstNode, styleValue: string): st
   const outputStyles: Record<string, string> = {};
   const styles = editor.dom.parseStyle(styleValue);
 
-  Tools.each(styles, (value, name) => {
+  tinymce.util.Tools.each(styles, (value, name) => {
     // Convert various MS styles to W3C styles
     switch (name) {
       case 'mso-list':
@@ -313,13 +300,13 @@ const filterStyles = (editor: Editor, node: WordAstNode, styleValue: string): st
   // Convert bold style to "b" element
   if (/(bold)/i.test(outputStyles['font-weight'])) {
     delete outputStyles['font-weight'];
-    node.wrap(new AstNode('b', 1));
+    node.wrap(new tinymce.html.Node('b', 1));
   }
 
   // Convert italic style to "i" element
   if (/(italic)/i.test(outputStyles['font-style'])) {
     delete outputStyles['font-style'];
-    node.wrap(new AstNode('i', 1));
+    node.wrap(new tinymce.html.Node('i', 1));
   }
 
   // Serialize the styles and see if there is something left to keep
@@ -366,14 +353,14 @@ const preProcess = (editor: Editor, content: string): string => {
   const validElements = editor.getParam('pastefromword_valid_elements', defaultValidElements);
 
   // Setup strict schema
-  const schema = Schema({
+  const schema = tinymce.html.Schema({
     valid_elements: validElements,
     valid_children: '-li[p]'
   });
 
   // Add style/class attribute to all element rules since the user might have removed them from
   // paste_word_valid_elements config option and we need to check them for properties
-  Tools.each(schema.elements, (rule) => {
+  tinymce.util.Tools.each(schema.elements, (rule) => {
     /* eslint dot-notation:0*/
     if (!rule.attributes.class) {
       rule.attributes.class = {};
@@ -387,7 +374,7 @@ const preProcess = (editor: Editor, content: string): string => {
   });
 
   // Parse HTML into DOM structure
-  const domParser = DomParser({}, schema);
+  const domParser = tinymce.html.DomParser({}, schema);
 
   // Filter styles to remove "mso" specific styles and convert some of them
   domParser.addAttributeFilter('style', (nodes) => {
@@ -476,7 +463,7 @@ const preProcess = (editor: Editor, content: string): string => {
   }
 
   // Serialize DOM back to HTML
-  content = HtmlSerializer({}, schema).serialize(rootNode);
+  content = tinymce.html.Serializer({}, schema).serialize(rootNode);
 
   return content;
 };
