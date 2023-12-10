@@ -1,5 +1,5 @@
 {
-  "name": "tinymce-paste-from-word-plugin",
+  "name": "@pangaeatech/tinymce-paste-from-word-plugin",
   "version": "1.0.0",
   "description": "TinyMCE 6.x Plugin to add support for pasting from Microsoft Word documents",
   "author": "Pangaea Information Technologies, Ltd.",
