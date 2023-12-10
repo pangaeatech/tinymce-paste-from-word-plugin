@@ -1,10 +1,10 @@
 {
-  "name": "tinymce-paste-from-word-plugin",
-  "version": "0.1.0",
+  "name": "@pangaeatech/tinymce-paste-from-word-plugin",
+  "version": "1.0.0",
   "description": "TinyMCE 6.x Plugin to add support for pasting from Microsoft Word documents",
   "author": "Pangaea Information Technologies, Ltd.",
   "license": "LGPL-2.1",
-  "main": "dist/paste-from-word.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/pangaeatech/tinymce-paste-from-word-plugin"
