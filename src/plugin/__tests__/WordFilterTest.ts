@@ -1,17 +1,20 @@
 import { test, expect } from "@jest/globals";
 
-window.matchMedia = (() => ({ parseStyle: () => ""}) as any);
+window.matchMedia = () => ({ parseStyle: () => "" }) as any;
 import tinymce from "tinymce";
 
 import { preProcess } from "../WordFilter";
 import * as Strings from "../__mocks__/Strings";
 
-
 test("TBA: Paste Word fake list", () => {
-    const editor = new tinymce.Editor("id", { pastefromword_valid_elements: "-ul,-ol,-li,-p"}, tinymce);
+  const editor = new tinymce.Editor(
+    "id",
+    { pastefromword_valid_elements: "-ul,-ol,-li,-p" },
+    tinymce,
+  );
 
   expect(preProcess(editor, Strings.wordList2)).toEqual(
-    "<ul><li style=\"text-indent: -18pt;\"> Item 1</li><li style=\"text-indent: -18pt;\"> Item 2</li><li style=\"text-indent: -18pt;\"> Item 3</li><li style=\"text-indent: -18pt;\"> Item 4</li><li style=\"text-indent: -18pt;\"> Item 5</li><li style=\"text-indent: -18pt;\"> Item 6</li></ul>",
+    '<ul><li style="text-indent: -18pt;"> Item 1</li><li style="text-indent: -18pt;"> Item 2</li><li style="text-indent: -18pt;"> Item 3</li><li style="text-indent: -18pt;"> Item 4</li><li style="text-indent: -18pt;"> Item 5</li><li style="text-indent: -18pt;"> Item 6</li></ul>',
   );
 
   expect(
@@ -19,18 +22,26 @@ test("TBA: Paste Word fake list", () => {
       editor,
       '<p class="ListStyle" style="margin-top:0cm;margin-right:0cm;margin-bottom:3.0pt;margin-left:18.0pt;mso-add-space:auto;text-align:justify;text-indent:-18.0pt;mso-list:l0 level1 lfo1;tab-stops:list 18.0pt"><span lang="DE" style="font-family:Verdana;mso-fareast-font-family:Verdana;mso-bidi-font-family:Verdana;color:black"><span style="mso-list:Ignore">\u25CF<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span><span lang="DE" style="font-family:Arial;mso-fareast-font-family:Arial;mso-bidi-font-family:Arial;color:black">Item&nbsp; Spaces.<o:p></o:p></span></p>',
     ),
-  ).toEqual("<ul><li style=\"text-align: justify; text-indent: -18.0pt; tab-stops: list 18.0pt; margin: 0cm 0cm 3.0pt 18.0pt;\">Item\u00A0 Spaces.</li></ul>");
+  ).toEqual(
+    '<ul><li style="text-align: justify; text-indent: -18.0pt; tab-stops: list 18.0pt; margin: 0cm 0cm 3.0pt 18.0pt;">Item\u00A0 Spaces.</li></ul>',
+  );
 
   expect(
     preProcess(
       editor,
       '<p class="ListStyle" style="margin-left:36.0pt;mso-add-space:auto;text-indent:-18.0pt;mso-list:l0 level1 lfo1;tab-stops:list 36.0pt"><span lang="EN-US" style="color:black;mso-ansi-language:EN-US"><span style="mso-list:Ignore">1.<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span lang="EN-US" style="font-family:Arial;mso-fareast-font-family:Arial;mso-bidi-font-family:Arial;color:black;mso-ansi-language:EN-US">Version 7.0</span><span lang="EN-US" style="font-family:Arial;mso-fareast-font-family:Arial;mso-bidi-font-family:Arial;color:black;mso-ansi-language:EN-US">:<o:p></o:p></span></p>',
     ),
-  ).toEqual("<ol><li style=\"margin-left: 36.0pt; text-indent: -18.0pt; tab-stops: list 36.0pt;\"> Version 7.0:</li></ol>");
+  ).toEqual(
+    '<ol><li style="margin-left: 36.0pt; text-indent: -18.0pt; tab-stops: list 36.0pt;"> Version 7.0:</li></ol>',
+  );
 });
 
 test("TBA: Paste Word fake list of ten items with roman numerals", () => {
-  const editor = new tinymce.Editor("id", {pastefromword_valid_elements: "-ul,-ol,-li,-p"}, tinymce);
+  const editor = new tinymce.Editor(
+    "id",
+    { pastefromword_valid_elements: "-ul,-ol,-li,-p" },
+    tinymce,
+  );
 
   expect(
     preProcess(
@@ -116,20 +127,28 @@ test("TBA: Paste Word fake list of ten items with roman numerals", () => {
       lang=en-FI><o:p></o:p></span></p>`,
     ),
   ).toEqual(
-    "<ol><li style=\"text-indent: -36.0pt;\">  One</li><li style=\"text-indent: -36.0pt;\">  Two</li><li style=\"text-indent: -36.0pt;\">  Three</li><li style=\"text-indent: -36.0pt;\">  Four</li><li style=\"text-indent: -36.0pt;\">  Five</li><li style=\"text-indent: -36.0pt;\">  Six</li><li style=\"text-indent: -36.0pt;\">  Seven</li><li style=\"text-indent: -36.0pt;\">  Eight</li><li style=\"text-indent: -36.0pt;\">  Nine</li><li style=\"text-indent: -36.0pt;\">  Ten</li></ol>",
+    '<ol><li style="text-indent: -36.0pt;">  One</li><li style="text-indent: -36.0pt;">  Two</li><li style="text-indent: -36.0pt;">  Three</li><li style="text-indent: -36.0pt;">  Four</li><li style="text-indent: -36.0pt;">  Five</li><li style="text-indent: -36.0pt;">  Six</li><li style="text-indent: -36.0pt;">  Seven</li><li style="text-indent: -36.0pt;">  Eight</li><li style="text-indent: -36.0pt;">  Nine</li><li style="text-indent: -36.0pt;">  Ten</li></ol>',
   );
 });
 
 test("TBA: Paste Word fake list before BR", () => {
-  const editor = new tinymce.Editor("id", {pastefromword_valid_elements: "-ul,-ol,-li,-p,-br"}, tinymce);
+  const editor = new tinymce.Editor(
+    "id",
+    { pastefromword_valid_elements: "-ul,-ol,-li,-p,-br" },
+    tinymce,
+  );
 
   expect(preProcess(editor, Strings.wordList1 + "<p><br />a</p>")).toEqual(
-    "<ul><li style=\"text-indent: -18pt;\"> Item 1</li><li style=\"text-indent: -18pt;\"> Item 2</li><li style=\"text-indent: -18pt;\"> Item 3</li><li style=\"text-indent: -18pt;\"> Item 4</li><li style=\"text-indent: -18pt;\"> Item 5</li><li style=\"text-indent: -18pt;\"> Item 6</li></ul><p>a</p>",
+    '<ul><li style="text-indent: -18pt;"> Item 1</li><li style="text-indent: -18pt;"> Item 2</li><li style="text-indent: -18pt;"> Item 3</li><li style="text-indent: -18pt;"> Item 4</li><li style="text-indent: -18pt;"> Item 5</li><li style="text-indent: -18pt;"> Item 6</li></ul><p>a</p>',
   );
 });
 
 test("TBA: Paste Word fake lists interrupted by header", () => {
-  const editor = new tinymce.Editor("id", {pastefromword_valid_elements: "-ul,-ol,-li,-p,-h1"}, tinymce);
+  const editor = new tinymce.Editor(
+    "id",
+    { pastefromword_valid_elements: "-ul,-ol,-li,-p,-h1" },
+    tinymce,
+  );
 
   expect(
     preProcess(
@@ -137,25 +156,14 @@ test("TBA: Paste Word fake lists interrupted by header", () => {
       `<p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family: Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>List before heading A<o:p></o:p></p>  <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family: Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>List before heading B<o:p></o:p></p>  <h1>heading<o:p></o:p></h1>  <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family: Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>List after heading A<o:p></o:p></p>  <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family: Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>List after heading B<o:p></o:p></p>`,
     ),
   ).toEqual(
-    "<ul><li style=\"text-indent: -.25in;\"> List before heading A</li><li style=\"text-indent: -.25in;\"> List before heading B</li></ul><h1>heading</h1><ul><li style=\"text-indent: -.25in;\"> List after heading A</li><li style=\"text-indent: -.25in;\"> List after heading B</li></ul>",
+    '<ul><li style="text-indent: -.25in;"> List before heading A</li><li style="text-indent: -.25in;"> List before heading B</li></ul><h1>heading</h1><ul><li style="text-indent: -.25in;"> List after heading A</li><li style="text-indent: -.25in;"> List after heading B</li></ul>',
   );
 });
 
 test("TBA: Paste list like paragraph and list", () => {
-  const editor = new tinymce.Editor("id", {pastefromword_valid_elements: "-ul,-ol,-li,-p"}, tinymce);
-
-  expect(
-    preProcess(
-      editor,
-      `<p class=MsoNormal><span style='font-size:10.0pt;line-height:115%;font-family:"Trebuchet MS","sans-serif";color:#666666'>ABC. X<o:p></o:p></span></p><p class=MsoListParagraph style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='mso-fareast-font-family:Calibri;mso-fareast-theme-font:minor-latin;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span><![endif]>Y</p>`,
-    ),
-  ).toEqual("<p>ABC. X</p><ol><li style=\"text-indent: -.25in;\">Y</li></ol>");
-});
-
-test("TBA: Paste list like paragraph and list (disabled)", () => {
   const editor = new tinymce.Editor(
     "id",
-    { pastefromword_convert_fake_lists: false, pastefromword_valid_elements: "-ul,-ol,-li,-p" },
+    { pastefromword_valid_elements: "-ul,-ol,-li,-p" },
     tinymce,
   );
 
@@ -164,19 +172,43 @@ test("TBA: Paste list like paragraph and list (disabled)", () => {
       editor,
       `<p class=MsoNormal><span style='font-size:10.0pt;line-height:115%;font-family:"Trebuchet MS","sans-serif";color:#666666'>ABC. X<o:p></o:p></span></p><p class=MsoListParagraph style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='mso-fareast-font-family:Calibri;mso-fareast-theme-font:minor-latin;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span><![endif]>Y</p>`,
     ),
-  ).toEqual("<p>ABC. X</p><p style=\"text-indent: -.25in;\">1.\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Y</p>");
+  ).toEqual('<p>ABC. X</p><ol><li style="text-indent: -.25in;">Y</li></ol>');
+});
+
+test("TBA: Paste list like paragraph and list (disabled)", () => {
+  const editor = new tinymce.Editor(
+    "id",
+    {
+      pastefromword_convert_fake_lists: false,
+      pastefromword_valid_elements: "-ul,-ol,-li,-p",
+    },
+    tinymce,
+  );
+
+  expect(
+    preProcess(
+      editor,
+      `<p class=MsoNormal><span style='font-size:10.0pt;line-height:115%;font-family:"Trebuchet MS","sans-serif";color:#666666'>ABC. X<o:p></o:p></span></p><p class=MsoListParagraph style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='mso-fareast-font-family:Calibri;mso-fareast-theme-font:minor-latin;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span><![endif]>Y</p>`,
+    ),
+  ).toEqual(
+    '<p>ABC. X</p><p style="text-indent: -.25in;">1.\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0Y</p>',
+  );
 });
 
 test("TBA: Paste Word table", () => {
   const editor = new tinymce.Editor("id", {}, tinymce);
 
   expect(preProcess(editor, Strings.table)).toEqual(
-    "<table style=\"margin-left: 36pt; border-collapse: collapse;\"><tbody><tr><td width=\"307\" style=\"border: 1pt solid black; padding: 0cm 5.4pt; width: 230.3pt;\"><p style=\"margin: 0cm 0cm 0.0001pt; line-height: normal;\">Cell 1</p></td><td width=\"307\" style=\"border-style: solid solid solid none; border-color: black black black -moz-use-text-color; border-width: 1pt 1pt 1pt medium; padding: 0cm 5.4pt; width: 230.3pt;\"><p style=\"margin: 0cm 0cm 0.0001pt; line-height: normal;\">Cell 2</p></td></tr><tr><td width=\"307\" style=\"border-style: none solid solid; border-color: -moz-use-text-color black black; border-width: medium 1pt 1pt; padding: 0cm 5.4pt; width: 230.3pt;\"><p style=\"margin: 0cm 0cm 0.0001pt; line-height: normal;\">Cell 3</p></td><td width=\"307\" style=\"border-style: none solid solid none; border-color: -moz-use-text-color black black -moz-use-text-color; border-width: medium 1pt 1pt medium; padding: 0cm 5.4pt; width: 230.3pt;\"><p style=\"margin: 0cm 0cm 0.0001pt; line-height: normal;\">Cell 4</p></td></tr></tbody></table><p> </p>"
+    '<table style="margin-left: 36pt; border-collapse: collapse;"><tbody><tr><td width="307" style="border: 1pt solid black; padding: 0cm 5.4pt; width: 230.3pt;"><p style="margin: 0cm 0cm 0.0001pt; line-height: normal;">Cell 1</p></td><td width="307" style="border-style: solid solid solid none; border-color: black black black -moz-use-text-color; border-width: 1pt 1pt 1pt medium; padding: 0cm 5.4pt; width: 230.3pt;"><p style="margin: 0cm 0cm 0.0001pt; line-height: normal;">Cell 2</p></td></tr><tr><td width="307" style="border-style: none solid solid; border-color: -moz-use-text-color black black; border-width: medium 1pt 1pt; padding: 0cm 5.4pt; width: 230.3pt;"><p style="margin: 0cm 0cm 0.0001pt; line-height: normal;">Cell 3</p></td><td width="307" style="border-style: none solid solid none; border-color: -moz-use-text-color black black -moz-use-text-color; border-width: medium 1pt 1pt medium; padding: 0cm 5.4pt; width: 230.3pt;"><p style="margin: 0cm 0cm 0.0001pt; line-height: normal;">Cell 4</p></td></tr></tbody></table><p> </p>',
   );
 });
 
 test("TBA: Paste Office 365", () => {
-  const editor = new tinymce.Editor("id", {pastefromword_valid_elements: "-ul,-ol,-li,-p,-div"}, tinymce);
+  const editor = new tinymce.Editor(
+    "id",
+    { pastefromword_valid_elements: "-ul,-ol,-li,-p,-div" },
+    tinymce,
+  );
 
   expect(
     preProcess(
@@ -187,7 +219,11 @@ test("TBA: Paste Office 365", () => {
 });
 
 test("TBA: Paste Google Docs 1", () => {
-  const editor = new tinymce.Editor("id", {pastefromword_valid_elements: "-ul,-ol,-li,-p"}, tinymce);
+  const editor = new tinymce.Editor(
+    "id",
+    { pastefromword_valid_elements: "-ul,-ol,-li,-p" },
+    tinymce,
+  );
 
   expect(
     preProcess(
@@ -204,7 +240,11 @@ test("TBA: Paste Google Docs 1", () => {
 });
 
 test("TBA: Paste Word without mso markings", () => {
-    const editor = new tinymce.Editor("id", {pastefromword_valid_elements: "-ul,-ol,-li,-p" }, tinymce);
+  const editor = new tinymce.Editor(
+    "id",
+    { pastefromword_valid_elements: "-ul,-ol,-li,-p" },
+    tinymce,
+  );
 
   expect(
     preProcess(
@@ -215,7 +255,7 @@ test("TBA: Paste Word without mso markings", () => {
         "</p>" +
         '<font face="Times New Roman" size="3"></font>',
     ),
-  ).toEqual("<p style=\"margin: 0in 0in 10pt;\">Comic Sans MS</p>");
+  ).toEqual('<p style="margin: 0in 0in 10pt;">Comic Sans MS</p>');
 });
 
 test("TBA: Paste Word links", () => {
@@ -307,7 +347,11 @@ test("TBA: paste track changes comment", () => {
 });
 
 test("TBA: paste nested (UL) word list", () => {
-  const editor = new tinymce.Editor("id", {pastefromword_valid_elements: "-ul,-ol,-li,-p"}, tinymce);
+  const editor = new tinymce.Editor(
+    "id",
+    { pastefromword_valid_elements: "-ul,-ol,-li,-p" },
+    tinymce,
+  );
 
   expect(
     preProcess(
@@ -325,11 +369,11 @@ test("TBA: paste nested (UL) word list", () => {
     ),
   ).toEqual(
     "<ul>" +
-      "<li style=\"text-indent: -18.0pt;\">a" +
+      '<li style="text-indent: -18.0pt;">a' +
       "<ul>" +
-      "<li style=\"margin-left: 72.0pt; text-indent: -18.0pt;\">ob" +
+      '<li style="margin-left: 72.0pt; text-indent: -18.0pt;">ob' +
       "<ul>" +
-      "<li style=\"margin-left: 108.0pt; text-indent: -18.0pt;\">c 1. x</li>" +
+      '<li style="margin-left: 108.0pt; text-indent: -18.0pt;">c 1. x</li>' +
       "</ul>" +
       "</li>" +
       "</ul>" +
@@ -339,7 +383,11 @@ test("TBA: paste nested (UL) word list", () => {
 });
 
 test("TBA: paste nested (OL) word list", () => {
-  const editor = new tinymce.Editor("id", { pastefromword_valid_elements: "-ul,-ol,-li,-p"}, tinymce);
+  const editor = new tinymce.Editor(
+    "id",
+    { pastefromword_valid_elements: "-ul,-ol,-li,-p" },
+    tinymce,
+  );
 
   expect(
     preProcess(
@@ -361,11 +409,11 @@ test("TBA: paste nested (OL) word list", () => {
     ),
   ).toEqual(
     "<ol>" +
-      "<li style=\"text-indent: -18.0pt;\">a" +
+      '<li style="text-indent: -18.0pt;">a' +
       "<ol>" +
-      "<li style=\"margin-left: 72.0pt; text-indent: -18.0pt;\">b" +
+      '<li style="margin-left: 72.0pt; text-indent: -18.0pt;">b' +
       "<ol>" +
-      "<li style=\"margin-left: 108.0pt; text-indent: -108.0pt;\">c</li>" +
+      '<li style="margin-left: 108.0pt; text-indent: -108.0pt;">c</li>' +
       "</ol>" +
       "</li>" +
       "</ol>" +
