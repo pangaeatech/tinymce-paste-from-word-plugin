@@ -22,8 +22,8 @@ jobs:
           cache: "npm"
 
       - run: |
-          VER=`echo ${{ github.ref }} | sed -e 's/refs\/tags\/v//'`
-          sed -i "s/^ *\"version\": \".*\", *$/  \"version\": \"$VER\"," package.json
+          VER=`echo "${{ github.ref }}" | sed -e 's/refs\/tags\/v//'`
+          sed -i "s/^ *\"version\": \".*\", *$/  \"version\": \"$VER\",/" package.json
 
       - run: npm ci
 
