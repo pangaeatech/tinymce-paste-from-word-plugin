@@ -29,6 +29,11 @@ jobs:
 
       - run: npm run build
 
+      - run: |
+          rm -Rf dist/src/
+          cp package.json dist/
+
       - uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
+          package: "dist"
