@@ -1,0 +1,38 @@
+name: Build and Test
+concurrency: test-${{ github.ref }}
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && !github.event.pull_request.draft)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          clean: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - run: npm ci
+
+      - run: npm run format:check
+
+      - run: npm run build
+
+      - run: npm run lint
+
+      - run: npm run coverage
