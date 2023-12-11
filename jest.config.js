@@ -2,7 +2,16 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
-  testPathIgnorePatterns: ["/node_modules/", "/dist/"],
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "<rootDir>/dist/",
+    "<rootDir>/lib/",
+  ],
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "<rootDir>/dist/",
+    "<rootDir>/lib/",
+  ],
   coverageThreshold: {
     global: {
       branches: 75,

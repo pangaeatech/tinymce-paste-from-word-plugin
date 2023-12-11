@@ -5,8 +5,11 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  */
-import Plugin from "./plugin/main";
+import type { Editor } from "tinymce";
+import { isWordContent, preProcess, PreProcessEvent } from "./WordFilter";
 
-Plugin();
-
-/** DO NOT EXPORT ANYTHING - IF YOU DO ROLLUP WILL LEAVE A GLOBAL ON THE PAGE */
+export default (editor: Editor, args: PreProcessEvent): void => {
+  if (isWordContent(args.content)) {
+    args.content = preProcess(editor, args.content);
+  }
+};
