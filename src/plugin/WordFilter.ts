@@ -5,10 +5,13 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  */
-
 import tinymce, { AstNode, Editor } from "tinymce";
-
 import { filter } from "./Utils";
+
+export interface PreProcessEvent {
+  content: string;
+  internal: boolean;
+}
 
 interface WordAstNode extends AstNode {
   _listLevel?: number;

@@ -30,6 +30,7 @@ jobs:
       - run: npm run build
 
       - run: |
+          mv dist/src/main.d.ts dist/index.d.ts
           rm -Rf dist/src/
           cp package.json README.md LICENSE dist/
 
@@ -37,4 +38,20 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
           package: "dist"
+          access: "public"
+
+      - run: npm run build-lib
+
+      - run: |
+          mv lib/src/plugin/lib.d.ts lib/index.d.ts
+          rm -Rf lib/src/
+          cp package.json README.md LICENSE lib/
+
+      - run: |
+          sed -i 's/@pangaeatech\/tinymce-paste-from-word-plugin/@pangaeatech\/tinymce-paste-from-word-lib/' lib/package.json
+
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: "lib"
           access: "public"
