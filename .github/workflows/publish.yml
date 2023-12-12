@@ -30,8 +30,7 @@ jobs:
       - run: npm run build
 
       - run: |
-          mv dist/src/main.d.ts dist/index.d.ts
-          rm -Rf dist/src/
+          cp types/src/main.d.ts dist/index.d.ts
           cp package.json README.md LICENSE dist/
 
       - uses: JS-DevTools/npm-publish@v3
@@ -43,8 +42,7 @@ jobs:
       - run: npm run build-lib
 
       - run: |
-          mv lib/src/plugin/lib.d.ts lib/index.d.ts
-          rm -Rf lib/src/
+          cp types/src/plugin/lib.d.ts lib/index.d.ts
           cp package.json README.md LICENSE lib/
 
       - run: |
