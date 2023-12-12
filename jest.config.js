@@ -5,11 +5,13 @@ module.exports = {
   coveragePathIgnorePatterns: [
     "/node_modules/",
     "<rootDir>/dist/",
+    "<rootDir>/types/",
     "<rootDir>/lib/",
   ],
   testPathIgnorePatterns: [
     "/node_modules/",
     "<rootDir>/dist/",
+    "<rootDir>/types/",
     "<rootDir>/lib/",
   ],
   coverageThreshold: {
