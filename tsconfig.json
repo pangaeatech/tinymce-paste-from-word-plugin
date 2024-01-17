@@ -19,6 +19,6 @@
     "noUnusedLocals": true,
     "strict": false,
     "noEmitOnError": true,
-    "types": []
-  }
+    "types": [],
+  },
 }
