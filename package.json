@@ -34,7 +34,7 @@
     "format:fix": "prettier --write ."
   },
   "dependencies": {
-    "tinymce": "6.8.2"
+    "tinymce": "6.8.3"
   },
   "devDependencies": {
     "@babel/core": "7.23.9",
