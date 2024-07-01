@@ -42,7 +42,7 @@
     "@babel/preset-typescript": "7.24.7",
     "@jest/globals": "29.7.0",
     "@types/jest": "29.5.12",
-    "@types/node": "20.14.8",
+    "@types/node": "20.14.9",
     "@types/tinymce": "4.6.9",
     "@typescript-eslint/eslint-plugin": "7.3.1",
     "@typescript-eslint/parser": "7.3.1",
@@ -58,7 +58,7 @@
     "ts-loader": "9.5.1",
     "ts-node": "10.9.2",
     "tslib": "2.6.3",
-    "typescript": "5.5.2",
+    "typescript": "5.5.3",
     "webpack": "5.92.1",
     "webpack-cli": "5.1.4"
   }
