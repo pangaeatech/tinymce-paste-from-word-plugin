@@ -14,7 +14,7 @@ test("TBA: Paste Word fake list", () => {
   );
 
   expect(preProcess(editor, Strings.wordList2)).toEqual(
-    '<ul><li> Item 1</li><li> Item 2</li><li> Item 3</li><li> Item 4</li><li> Item 5</li><li> Item 6</li></ul>',
+    "<ul><li> Item 1</li><li> Item 2</li><li> Item 3</li><li> Item 4</li><li> Item 5</li><li> Item 6</li></ul>",
   );
 
   expect(
@@ -31,9 +31,7 @@ test("TBA: Paste Word fake list", () => {
       editor,
       '<p class="ListStyle" style="margin-left:36.0pt;mso-add-space:auto;text-indent:-18.0pt;mso-list:l0 level1 lfo1;tab-stops:list 36.0pt"><span lang="EN-US" style="color:black;mso-ansi-language:EN-US"><span style="mso-list:Ignore">1.<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span lang="EN-US" style="font-family:Arial;mso-fareast-font-family:Arial;mso-bidi-font-family:Arial;color:black;mso-ansi-language:EN-US">Version 7.0</span><span lang="EN-US" style="font-family:Arial;mso-fareast-font-family:Arial;mso-bidi-font-family:Arial;color:black;mso-ansi-language:EN-US">:<o:p></o:p></span></p>',
     ),
-  ).toEqual(
-    '<ol><li style="tab-stops: list 36.0pt;"> Version 7.0:</li></ol>',
-  );
+  ).toEqual('<ol><li style="tab-stops: list 36.0pt;"> Version 7.0:</li></ol>');
 });
 
 test("TBA: Paste Word fake list of ten items with roman numerals", () => {
@@ -127,7 +125,7 @@ test("TBA: Paste Word fake list of ten items with roman numerals", () => {
       lang=en-FI><o:p></o:p></span></p>`,
     ),
   ).toEqual(
-    '<ol><li>  One</li><li>  Two</li><li>  Three</li><li>  Four</li><li>  Five</li><li>  Six</li><li>  Seven</li><li>  Eight</li><li>  Nine</li><li>  Ten</li></ol>',
+    "<ol><li>  One</li><li>  Two</li><li>  Three</li><li>  Four</li><li>  Five</li><li>  Six</li><li>  Seven</li><li>  Eight</li><li>  Nine</li><li>  Ten</li></ol>",
   );
 });
 
@@ -139,7 +137,7 @@ test("TBA: Paste Word fake list before BR", () => {
   );
 
   expect(preProcess(editor, Strings.wordList1 + "<p><br />a</p>")).toEqual(
-    '<ul><li> Item 1</li><li> Item 2</li><li> Item 3</li><li> Item 4</li><li> Item 5</li><li> Item 6</li></ul><p>a</p>',
+    "<ul><li> Item 1</li><li> Item 2</li><li> Item 3</li><li> Item 4</li><li> Item 5</li><li> Item 6</li></ul><p>a</p>",
   );
 });
 
@@ -156,7 +154,7 @@ test("TBA: Paste Word fake lists interrupted by header", () => {
       `<p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family: Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>List before heading A<o:p></o:p></p>  <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family: Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>List before heading B<o:p></o:p></p>  <h1>heading<o:p></o:p></h1>  <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family: Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>List after heading A<o:p></o:p></p>  <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family: Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>List after heading B<o:p></o:p></p>`,
     ),
   ).toEqual(
-    '<ul><li> List before heading A</li><li> List before heading B</li></ul><h1>heading</h1><ul><li> List after heading A</li><li> List after heading B</li></ul>',
+    "<ul><li> List before heading A</li><li> List before heading B</li></ul><h1>heading</h1><ul><li> List after heading A</li><li> List after heading B</li></ul>",
   );
 });
 
@@ -172,7 +170,7 @@ test("TBA: Paste list like paragraph and list", () => {
       editor,
       `<p class=MsoNormal><span style='font-size:10.0pt;line-height:115%;font-family:"Trebuchet MS","sans-serif";color:#666666'>ABC. X<o:p></o:p></span></p><p class=MsoListParagraph style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='mso-fareast-font-family:Calibri;mso-fareast-theme-font:minor-latin;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span><![endif]>Y</p>`,
     ),
-  ).toEqual('<p>ABC. X</p><ol><li>Y</li></ol>');
+  ).toEqual("<p>ABC. X</p><ol><li>Y</li></ol>");
 });
 
 test("TBA: Paste list like paragraph and list (disabled)", () => {
@@ -369,11 +367,11 @@ test("TBA: paste nested (UL) word list", () => {
     ),
   ).toEqual(
     "<ul>" +
-      '<li>a' +
+      "<li>a" +
       "<ul>" +
-      '<li>ob' +
+      "<li>ob" +
       "<ul>" +
-      '<li>c 1. x</li>' +
+      "<li>c 1. x</li>" +
       "</ul>" +
       "</li>" +
       "</ul>" +
@@ -409,11 +407,11 @@ test("TBA: paste nested (OL) word list", () => {
     ),
   ).toEqual(
     "<ol>" +
-      '<li>a' +
+      "<li>a" +
       "<ol>" +
-      '<li>b' +
+      "<li>b" +
       "<ol>" +
-      '<li>c</li>' +
+      "<li>c</li>" +
       "</ol>" +
       "</li>" +
       "</ol>" +
@@ -436,7 +434,7 @@ test("TBA: paste nested lists", () => {
   expect(
     preProcess(
       editor,
-        `<p class=MsoNormal>This is a header<o:p></o:p></p>` +
+      `<p class=MsoNormal>This is a header<o:p></o:p></p>` +
         `` +
         `<p class=MsoNormal>This is a paragraph.<o:p></o:p></p>` +
         `` +
@@ -522,7 +520,7 @@ test("TBA: paste nested lists", () => {
         `<p class=MsoNormal><o:p>&nbsp;</o:p></p>`,
     ),
   ).toEqual(
-      "<p>This is a header</p>" +
+    "<p>This is a header</p>" +
       "<p>This is a paragraph.</p>" +
       "<ol>" +
       "<li>Numbered Item</li>" +
@@ -548,5 +546,3 @@ test("TBA: paste nested lists", () => {
       "<p> </p>",
   );
 });
-
-

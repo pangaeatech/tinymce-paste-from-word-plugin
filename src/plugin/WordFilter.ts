@@ -162,7 +162,10 @@ const convertFakeListsToProperLists = (node: WordAstNode) => {
     paragraphNode.name = "li";
 
     // Reprocess styles with new node name
-    paragraphNode.attr("style", filterStyles(null, paragraphNode, paragraphNode.attr("style")));
+    paragraphNode.attr(
+      "style",
+      filterStyles(null, paragraphNode, paragraphNode.attr("style")),
+    );
 
     // Append list to previous list if it exists
     if (level > lastLevel && prevListNode) {
@@ -509,7 +512,7 @@ const preProcess = (editor: Editor, content: string): string => {
   content = tinymce.html.Serializer({}, schema).serialize(rootNode);
 
   // Remove empty spans
-  content = filter(content, [ /<span[^>]*>\s*<\/span>/gi ]);
+  content = filter(content, [/<span[^>]*>\s*<\/span>/gi]);
 
   return content;
 };
