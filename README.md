@@ -2,6 +2,19 @@
 
 This plugin adds the open-source [Paste from Word](https://www.tiny.cloud/docs/plugins/opensource/paste/) functionality from the 5.x branch of TinyMCE as a plugin for the 6.x branch. The goal of this project is not to replace the premium [PowerPaste plugin](https://www.tiny.cloud/tinymce/features/powerpaste/), but to allow users who would otherwise stay on the 5.x branch solely for paste-from-word support to upgrade to the 6.x branch.
 
+### Comparison with PowerPaste
+
+| Feature                           |    This Plugin     |     PowerPaste     |
+| :-------------------------------- | :----------------: | :----------------: |
+| Automatically cleans up content   | :heavy_check_mark: | :heavy_check_mark: |
+| Supports embedded images          |         -          | :heavy_check_mark: |
+| Paste from Microsoft Word         | :heavy_check_mark: | :heavy_check_mark: |
+| Paste from Microsoft Word online  | :heavy_check_mark: | :heavy_check_mark: |
+| Paste from Microsoft Excel        |         -          | :heavy_check_mark: |
+| Paste from Microsoft Excel online |         -          |         -          |
+| Paste from Google Docs            | :heavy_check_mark: | :heavy_check_mark: |
+| Paste from Google Sheets          |         -          |         -          |
+
 ## Usage
 
 ### Option 1: CDN Hosted
