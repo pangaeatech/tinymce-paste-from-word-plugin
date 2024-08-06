@@ -161,6 +161,12 @@ const convertFakeListsToProperLists = (node: WordAstNode) => {
 
     paragraphNode.name = "li";
 
+    // Reprocess styles with new node name
+    paragraphNode.attr(
+      "style",
+      filterStyles(null, paragraphNode, paragraphNode.attr("style")),
+    );
+
     // Append list to previous list if it exists
     if (level > lastLevel && prevListNode) {
       prevListNode.lastChild.append(currentListNode);
@@ -285,6 +291,18 @@ const filterStyles = (
           outputStyles[name] = value;
         }
         return;
+
+      case "text-indent":
+      case "margin":
+      case "margin-top":
+      case "margin-bottom":
+      case "margin-left":
+      case "margin-right":
+        if (node.name === "li") {
+          return;
+        }
+
+        break;
 
       case "mso-element":
         // Remove track changes code
@@ -492,6 +510,9 @@ const preProcess = (editor: Editor, content: string): string => {
 
   // Serialize DOM back to HTML
   content = tinymce.html.Serializer({}, schema).serialize(rootNode);
+
+  // Remove empty spans
+  content = filter(content, [/<span[^>]*>\s*<\/span>/gi]);
 
   return content;
 };
