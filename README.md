@@ -49,23 +49,25 @@ cd tinymce-react-demo
 npm install --save @tinymce/tinymce-react @pangaeatech/tinymce-paste-from-word-lib
 ```
 
-2. Using a text editor, open ./src/App.jsx and replace the contents with:
+2. Using a text editor, open ./src/App.js and replace the contents with:
 
 ```jsx
 import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import PasteFromWord from "@pangaeatech/tinymce-paste-from-word-lib";
 
+const config = {
+  height: 500,
+  paste_preprocess: PasteFromWord,
+  paste_webkit_styles: "all",
+  paste_remove_styles_if_webkit: false,
+};
+
 export default function App() {
   return (
     <Editor
       initialValue="<p>This is the initial content of the editor.</p>"
-      init={{
-        height: 500,
-        paste_preprocess: PasteFromWord,
-        paste_webkit_styles: "all",
-        paste_remove_styles_if_webkit: false,
-      }}
+      init={config}
     />
   );
 }
