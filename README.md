@@ -4,16 +4,16 @@ This plugin adds the open-source [Paste from Word](https://www.tiny.cloud/docs/p
 
 ### Comparison with PowerPaste
 
-| Feature                           |    This Plugin     |     PowerPaste     |
-| :-------------------------------- | :----------------: | :----------------: |
-| Automatically cleans up content   | :heavy_check_mark: | :heavy_check_mark: |
-| Supports embedded images          |         -          | :heavy_check_mark: |
-| Paste from Microsoft Word         | :heavy_check_mark: | :heavy_check_mark: |
-| Paste from Microsoft Word online  | :heavy_check_mark: | :heavy_check_mark: |
-| Paste from Microsoft Excel        |         -          | :heavy_check_mark: |
-| Paste from Microsoft Excel online |         -          |         -          |
-| Paste from Google Docs            | :heavy_check_mark: | :heavy_check_mark: |
-| Paste from Google Sheets          |         -          |         -          |
+| Feature                           | This Plugin | PowerPaste |
+| :-------------------------------- | :---------: | :--------: |
+| Automatically cleans up content   |     ✔      |     ✔     |
+| Supports embedded images          |      -      |     ✔     |
+| Paste from Microsoft Word         |     ✔      |     ✔     |
+| Paste from Microsoft Word online  |     ✔      |     ✔     |
+| Paste from Microsoft Excel        |      -      |     ✔     |
+| Paste from Microsoft Excel online |      -      |     -      |
+| Paste from Google Docs            |     ✔      |     ✔     |
+| Paste from Google Sheets          |      -      |     -      |
 
 ## Usage
 
