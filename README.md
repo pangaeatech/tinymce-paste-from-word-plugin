@@ -81,7 +81,7 @@ This option enables you to configure the elements specific to MS Office. Word pr
 
 Type: String
 
-Default Value: "-strong/b,-em/i,-u,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6,-p/div,-a[href|name],sub,sup,strike,br,del,table[width],tr,td[colspan|rowspan|width],th[colspan|rowspan|width],thead,tfoot,tbody"
+Default Value: `"-strong/b,-em/i,-u,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6,-p/div,-a[href|name],sub,sup,strike,br,del,table[width],tr,td[colspan|rowspan|width],th[colspan|rowspan|width],thead,tfoot,tbody"`
 
 ### `pastefromword_convert_fake_lists`
 
@@ -89,7 +89,7 @@ This option lets you disable the logic that converts list like paragraph structu
 
 Type: Boolean
 
-Default Value: true
+Default Value: `true`
 
 ### `paste_webkit_styles`
 
@@ -105,4 +105,4 @@ This plugin is a preprocessor which converts paste content from MS Word into Web
 
 Type: Boolean
 
-Default Value: true
+Default Value: `true`
