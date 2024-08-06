@@ -1,5 +1,5 @@
 title: TinyMCE Paste From Word Plugin
-description: TinyMCE 6.x Plugin to add support for pasting from Microsoft Word documents
+description: TinyMCE 6.x/7.x Plugin to add support for pasting from Microsoft Word documents
 
 remote_theme: pages-themes/cayman@v0.2.0
 plugins:

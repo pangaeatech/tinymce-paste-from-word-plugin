@@ -1,7 +1,7 @@
 {
   "name": "@pangaeatech/tinymce-paste-from-word-plugin",
   "version": "1.0.0",
-  "description": "TinyMCE 6.x Plugin to add support for pasting from Microsoft Word documents",
+  "description": "TinyMCE 6.x/7.x Plugin to add support for pasting from Microsoft Word documents",
   "author": "Pangaea Information Technologies, Ltd.",
   "license": "LGPL-2.1",
   "main": "index.js",
@@ -34,7 +34,8 @@
     "format:fix": "prettier --write ."
   },
   "dependencies": {
-    "tinymce": "6.8.2"
+    "tinymce6": "npm:tinymce@^6.0.0",
+    "tinymce7": "npm:tinymce@^7.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.25.2",
