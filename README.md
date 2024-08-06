@@ -2,6 +2,19 @@
 
 This plugin adds the open-source [Paste from Word](https://www.tiny.cloud/docs/plugins/opensource/paste/) functionality from the 5.x branch of TinyMCE as a plugin for the 6.x branch. The goal of this project is not to replace the premium [PowerPaste plugin](https://www.tiny.cloud/tinymce/features/powerpaste/), but to allow users who would otherwise stay on the 5.x branch solely for paste-from-word support to upgrade to the 6.x branch.
 
+### Comparison with PowerPaste
+
+| Feature                           | This Plugin | PowerPaste |
+| :-------------------------------- | :---------: | :--------: |
+| Automatically cleans up content   |     ✔      |     ✔     |
+| Supports embedded images          |      -      |     ✔     |
+| Paste from Microsoft Word         |     ✔      |     ✔     |
+| Paste from Microsoft Word online  |     ✔      |     ✔     |
+| Paste from Microsoft Excel        |      -      |     ✔     |
+| Paste from Microsoft Excel online |      -      |     -      |
+| Paste from Google Docs            |     ✔      |     ✔     |
+| Paste from Google Sheets          |      -      |     -      |
+
 ## Usage
 
 ### Option 1: CDN Hosted
@@ -51,21 +64,23 @@ npm install --save @tinymce/tinymce-react @pangaeatech/tinymce-paste-from-word-l
 
 2. Using a text editor, open ./src/App.js and replace the contents with:
 
-```js
+```jsx
 import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import PasteFromWord from "@pangaeatech/tinymce-paste-from-word-lib";
+
+const config = {
+  height: 500,
+  paste_preprocess: PasteFromWord,
+  paste_webkit_styles: "all",
+  paste_remove_styles_if_webkit: false,
+};
 
 export default function App() {
   return (
     <Editor
       initialValue="<p>This is the initial content of the editor.</p>"
-      init={{
-        height: 500,
-        paste_preprocess: PasteFromWord,
-        paste_webkit_styles: "all",
-        paste_remove_styles_if_webkit: false,
-      }}
+      init={config}
     />
   );
 }
@@ -81,7 +96,7 @@ This option enables you to configure the elements specific to MS Office. Word pr
 
 Type: String
 
-Default Value: "-strong/b,-em/i,-u,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6,-p/div,-a[href|name],sub,sup,strike,br,del,table[width],tr,td[colspan|rowspan|width],th[colspan|rowspan|width],thead,tfoot,tbody"
+Default Value: `"-strong/b,-em/i,-u,-span,-p,-ol,-ul,-li,-h1,-h2,-h3,-h4,-h5,-h6,-p/div,-a[href|name],sub,sup,strike,br,del,table[width],tr,td[colspan|rowspan|width],th[colspan|rowspan|width],thead,tfoot,tbody"`
 
 ### `pastefromword_convert_fake_lists`
 
@@ -89,7 +104,7 @@ This option lets you disable the logic that converts list like paragraph structu
 
 Type: Boolean
 
-Default Value: true
+Default Value: `true`
 
 ### `paste_webkit_styles`
 
@@ -105,4 +120,4 @@ This plugin is a preprocessor which converts paste content from MS Word into Web
 
 Type: Boolean
 
-Default Value: true
+Default Value: `true`

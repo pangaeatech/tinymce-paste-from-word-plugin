@@ -14,7 +14,7 @@ test("TBA: Paste Word fake list", () => {
   );
 
   expect(preProcess(editor, Strings.wordList2)).toEqual(
-    '<ul><li style="text-indent: -18pt;"> Item 1</li><li style="text-indent: -18pt;"> Item 2</li><li style="text-indent: -18pt;"> Item 3</li><li style="text-indent: -18pt;"> Item 4</li><li style="text-indent: -18pt;"> Item 5</li><li style="text-indent: -18pt;"> Item 6</li></ul>',
+    "<ul><li> Item 1</li><li> Item 2</li><li> Item 3</li><li> Item 4</li><li> Item 5</li><li> Item 6</li></ul>",
   );
 
   expect(
@@ -23,7 +23,7 @@ test("TBA: Paste Word fake list", () => {
       '<p class="ListStyle" style="margin-top:0cm;margin-right:0cm;margin-bottom:3.0pt;margin-left:18.0pt;mso-add-space:auto;text-align:justify;text-indent:-18.0pt;mso-list:l0 level1 lfo1;tab-stops:list 18.0pt"><span lang="DE" style="font-family:Verdana;mso-fareast-font-family:Verdana;mso-bidi-font-family:Verdana;color:black"><span style="mso-list:Ignore">\u25CF<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span><span lang="DE" style="font-family:Arial;mso-fareast-font-family:Arial;mso-bidi-font-family:Arial;color:black">Item&nbsp; Spaces.<o:p></o:p></span></p>',
     ),
   ).toEqual(
-    '<ul><li style="text-align: justify; text-indent: -18.0pt; tab-stops: list 18.0pt; margin: 0cm 0cm 3.0pt 18.0pt;">Item\u00A0 Spaces.</li></ul>',
+    '<ul><li style="text-align: justify; tab-stops: list 18.0pt;">Item\u00A0 Spaces.</li></ul>',
   );
 
   expect(
@@ -31,9 +31,7 @@ test("TBA: Paste Word fake list", () => {
       editor,
       '<p class="ListStyle" style="margin-left:36.0pt;mso-add-space:auto;text-indent:-18.0pt;mso-list:l0 level1 lfo1;tab-stops:list 36.0pt"><span lang="EN-US" style="color:black;mso-ansi-language:EN-US"><span style="mso-list:Ignore">1.<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span lang="EN-US" style="font-family:Arial;mso-fareast-font-family:Arial;mso-bidi-font-family:Arial;color:black;mso-ansi-language:EN-US">Version 7.0</span><span lang="EN-US" style="font-family:Arial;mso-fareast-font-family:Arial;mso-bidi-font-family:Arial;color:black;mso-ansi-language:EN-US">:<o:p></o:p></span></p>',
     ),
-  ).toEqual(
-    '<ol><li style="margin-left: 36.0pt; text-indent: -18.0pt; tab-stops: list 36.0pt;"> Version 7.0:</li></ol>',
-  );
+  ).toEqual('<ol><li style="tab-stops: list 36.0pt;"> Version 7.0:</li></ol>');
 });
 
 test("TBA: Paste Word fake list of ten items with roman numerals", () => {
@@ -127,7 +125,7 @@ test("TBA: Paste Word fake list of ten items with roman numerals", () => {
       lang=en-FI><o:p></o:p></span></p>`,
     ),
   ).toEqual(
-    '<ol><li style="text-indent: -36.0pt;">  One</li><li style="text-indent: -36.0pt;">  Two</li><li style="text-indent: -36.0pt;">  Three</li><li style="text-indent: -36.0pt;">  Four</li><li style="text-indent: -36.0pt;">  Five</li><li style="text-indent: -36.0pt;">  Six</li><li style="text-indent: -36.0pt;">  Seven</li><li style="text-indent: -36.0pt;">  Eight</li><li style="text-indent: -36.0pt;">  Nine</li><li style="text-indent: -36.0pt;">  Ten</li></ol>',
+    "<ol><li>  One</li><li>  Two</li><li>  Three</li><li>  Four</li><li>  Five</li><li>  Six</li><li>  Seven</li><li>  Eight</li><li>  Nine</li><li>  Ten</li></ol>",
   );
 });
 
@@ -139,7 +137,7 @@ test("TBA: Paste Word fake list before BR", () => {
   );
 
   expect(preProcess(editor, Strings.wordList1 + "<p><br />a</p>")).toEqual(
-    '<ul><li style="text-indent: -18pt;"> Item 1</li><li style="text-indent: -18pt;"> Item 2</li><li style="text-indent: -18pt;"> Item 3</li><li style="text-indent: -18pt;"> Item 4</li><li style="text-indent: -18pt;"> Item 5</li><li style="text-indent: -18pt;"> Item 6</li></ul><p>a</p>',
+    "<ul><li> Item 1</li><li> Item 2</li><li> Item 3</li><li> Item 4</li><li> Item 5</li><li> Item 6</li></ul><p>a</p>",
   );
 });
 
@@ -156,7 +154,7 @@ test("TBA: Paste Word fake lists interrupted by header", () => {
       `<p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family: Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>List before heading A<o:p></o:p></p>  <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family: Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>List before heading B<o:p></o:p></p>  <h1>heading<o:p></o:p></h1>  <p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family: Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>List after heading A<o:p></o:p></p>  <p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family: Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><![endif]>List after heading B<o:p></o:p></p>`,
     ),
   ).toEqual(
-    '<ul><li style="text-indent: -.25in;"> List before heading A</li><li style="text-indent: -.25in;"> List before heading B</li></ul><h1>heading</h1><ul><li style="text-indent: -.25in;"> List after heading A</li><li style="text-indent: -.25in;"> List after heading B</li></ul>',
+    "<ul><li> List before heading A</li><li> List before heading B</li></ul><h1>heading</h1><ul><li> List after heading A</li><li> List after heading B</li></ul>",
   );
 });
 
@@ -172,7 +170,7 @@ test("TBA: Paste list like paragraph and list", () => {
       editor,
       `<p class=MsoNormal><span style='font-size:10.0pt;line-height:115%;font-family:"Trebuchet MS","sans-serif";color:#666666'>ABC. X<o:p></o:p></span></p><p class=MsoListParagraph style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span style='mso-fareast-font-family:Calibri;mso-fareast-theme-font:minor-latin;mso-bidi-font-family:Calibri;mso-bidi-theme-font:minor-latin'><span style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></span><![endif]>Y</p>`,
     ),
-  ).toEqual('<p>ABC. X</p><ol><li style="text-indent: -.25in;">Y</li></ol>');
+  ).toEqual("<p>ABC. X</p><ol><li>Y</li></ol>");
 });
 
 test("TBA: Paste list like paragraph and list (disabled)", () => {
@@ -369,11 +367,11 @@ test("TBA: paste nested (UL) word list", () => {
     ),
   ).toEqual(
     "<ul>" +
-      '<li style="text-indent: -18.0pt;">a' +
+      "<li>a" +
       "<ul>" +
-      '<li style="margin-left: 72.0pt; text-indent: -18.0pt;">ob' +
+      "<li>ob" +
       "<ul>" +
-      '<li style="margin-left: 108.0pt; text-indent: -18.0pt;">c 1. x</li>' +
+      "<li>c 1. x</li>" +
       "</ul>" +
       "</li>" +
       "</ul>" +
@@ -409,11 +407,11 @@ test("TBA: paste nested (OL) word list", () => {
     ),
   ).toEqual(
     "<ol>" +
-      '<li style="text-indent: -18.0pt;">a' +
+      "<li>a" +
       "<ol>" +
-      '<li style="margin-left: 72.0pt; text-indent: -18.0pt;">b' +
+      "<li>b" +
       "<ol>" +
-      '<li style="margin-left: 108.0pt; text-indent: -108.0pt;">c</li>' +
+      "<li>c</li>" +
       "</ol>" +
       "</li>" +
       "</ol>" +
@@ -427,5 +425,124 @@ test("TBA: Paste word DIV as P", () => {
 
   expect(preProcess(editor, '<p class="MsoNormal">1</p><div>2</div>')).toEqual(
     "<p>1</p><p>2</p>",
+  );
+});
+
+test("TBA: paste nested lists", () => {
+  const editor = new tinymce.Editor("id", {}, tinymce);
+
+  expect(
+    preProcess(
+      editor,
+      `<p class=MsoNormal>This is a header<o:p></o:p></p>` +
+        `` +
+        `<p class=MsoNormal>This is a paragraph.<o:p></o:p></p>` +
+        `` +
+        `<p class=MsoListParagraphCxSpFirst style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span` +
+        `style='mso-bidi-font-family:Aptos;mso-bidi-theme-font:minor-latin'><span` +
+        `style='mso-list:Ignore'>1.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;` +
+        `</span></span></span><![endif]>Numbered Item<o:p></o:p></p>` +
+        `` +
+        `<p class=MsoListParagraphCxSpMiddle style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span` +
+        `style='mso-bidi-font-family:Aptos;mso-bidi-theme-font:minor-latin'><span` +
+        `style='mso-list:Ignore'>2.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;` +
+        `</span></span></span><![endif]>Numbered Item<o:p></o:p></p>` +
+        `` +
+        `<p class=MsoListParagraphCxSpMiddle style='margin-left:1.0in;mso-add-space:` +
+        `auto;text-indent:-.25in;mso-list:l0 level2 lfo1'><![if !supportLists]><span` +
+        `style='mso-bidi-font-family:Aptos;mso-bidi-theme-font:minor-latin'><span` +
+        `style='mso-list:Ignore'>a.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;` +
+        `</span></span></span><![endif]>Indented<o:p></o:p></p>` +
+        `` +
+        `<p class=MsoListParagraphCxSpMiddle style='margin-left:117.0pt;mso-add-space:` +
+        `auto;text-indent:-.25in;mso-list:l0 level3 lfo1'><![if !supportLists]><span` +
+        `style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:` +
+        `Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;` +
+        `</span></span></span><![endif]>Bullet<o:p></o:p></p>` +
+        `` +
+        `<p class=MsoListParagraphCxSpMiddle style='margin-left:1.0in;mso-add-space:` +
+        `auto;text-indent:-.25in;mso-list:l0 level2 lfo1'><![if !supportLists]><span` +
+        `style='mso-bidi-font-family:Aptos;mso-bidi-theme-font:minor-latin'><span` +
+        `style='mso-list:Ignore'>b.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;` +
+        `</span></span></span><![endif]>Indented again<o:p></o:p></p>` +
+        `` +
+        `<p class=MsoListParagraphCxSpMiddle style='margin-left:117.0pt;mso-add-space:` +
+        `auto;text-indent:-.25in;mso-list:l0 level3 lfo1'><![if !supportLists]><span` +
+        `style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:` +
+        `Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;` +
+        `</span></span></span><![endif]>Bullet again<o:p></o:p></p>` +
+        `` +
+        `<p class=MsoListParagraphCxSpMiddle style='margin-left:117.0pt;mso-add-space:` +
+        `auto;text-indent:-.25in;mso-list:l0 level3 lfo1'><![if !supportLists]><span` +
+        `style='font-family:Symbol;mso-fareast-font-family:Symbol;mso-bidi-font-family:` +
+        `Symbol'><span style='mso-list:Ignore'>·<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;` +
+        `</span></span></span><![endif]>Bullet again again<o:p></o:p></p>` +
+        `` +
+        `<p class=MsoListParagraphCxSpLast style='text-indent:-.25in;mso-list:l0 level1 lfo1'><![if !supportLists]><span` +
+        `style='mso-bidi-font-family:Aptos;mso-bidi-theme-font:minor-latin'><span` +
+        `style='mso-list:Ignore'>3.<span style='font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;` +
+        `</span></span></span><![endif]>Numbered again<o:p></o:p></p>` +
+        `` +
+        `<p class=MsoNormal><span style='color:red;background:yellow;mso-highlight:yellow'>This` +
+        `is a highlighted colored paragraph.</span><span style='color:red'><o:p></o:p></span></p>` +
+        `` +
+        `<p class=MsoNormal><span style='mso-no-proof:yes'><!--[if gte vml 1]><v:shapetype` +
+        ` id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t"` +
+        ` path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">` +
+        ` <v:stroke joinstyle="miter"/>` +
+        ` <v:formulas>` +
+        `  <v:f eqn="if lineDrawn pixelLineWidth 0"/>` +
+        `  <v:f eqn="sum @0 1 0"/>` +
+        `  <v:f eqn="sum 0 0 @1"/>` +
+        `  <v:f eqn="prod @2 1 2"/>` +
+        `  <v:f eqn="prod @3 21600 pixelWidth"/>` +
+        `  <v:f eqn="prod @3 21600 pixelHeight"/>` +
+        `  <v:f eqn="sum @0 0 1"/>` +
+        `  <v:f eqn="prod @6 1 2"/>` +
+        `  <v:f eqn="prod @7 21600 pixelWidth"/>` +
+        `  <v:f eqn="sum @8 21600 0"/>` +
+        `  <v:f eqn="prod @7 21600 pixelHeight"/>` +
+        `  <v:f eqn="sum @10 21600 0"/>` +
+        ` </v:formulas>` +
+        ` <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>` +
+        ` <o:lock v:ext="edit" aspectratio="t"/>` +
+        `</v:shapetype><v:shape id="Picture_x0020_1" o:spid="_x0000_i1025" type="#_x0000_t75"` +
+        ` alt="Space shuttle launch" style='width:111.6pt;height:2in;visibility:visible;` +
+        ` mso-wrap-style:square'>` +
+        ` <v:imagedata src="file:///C:/Users/User/AppData/Local/Temp/msohtmlclip1/01/clip_image001.jpg"` +
+        `  o:title="Space shuttle launch"/>` +
+        `</v:shape><![endif]--><![if !vml]><img width=149 height=192` +
+        `src="file:///C:/Users/User/AppData/Local/Temp/msohtmlclip1/01/clip_image002.jpg"` +
+        `alt="Space shuttle launch" v:shapes="Picture_x0020_1"><![endif]></span><o:p></o:p></p>` +
+        `` +
+        `<p class=MsoNormal><s>This</s> is below a <u>picture</u> of the<b> space shuttle</b>.<o:p></o:p></p>` +
+        `` +
+        `<p class=MsoNormal><o:p>&nbsp;</o:p></p>`,
+    ),
+  ).toEqual(
+    "<p>This is a header</p>" +
+      "<p>This is a paragraph.</p>" +
+      "<ol>" +
+      "<li>Numbered Item</li>" +
+      "<li>Numbered Item" +
+      "<ol>" +
+      "<li>Indented" +
+      "<ul>" +
+      "<li>Bullet</li>" +
+      "</ul>" +
+      "</li>" +
+      "<li>Indented again" +
+      "<ul>" +
+      "<li>Bullet again</li>" +
+      "<li>Bullet again again</li>" +
+      "</ul>" +
+      "</li>" +
+      "<li>Numbered again</li>" +
+      "</ol>" +
+      "</li>" +
+      "</ol>" +
+      `<p><span style=\"color: red; background: yellow;\">Thisis a highlighted colored paragraph.</span></p>` +
+      `<p><strike>This</strike> is below a <u>picture</u> of the<strong> space shuttle</strong>.</p>` +
+      "<p> </p>",
   );
 });
