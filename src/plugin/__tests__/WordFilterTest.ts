@@ -1,6 +1,7 @@
 import { test, expect } from "@jest/globals";
 
 window.matchMedia = () => ({ parseStyle: () => "" }) as any;
+global.CSS = { escape: (s) => s } as any;
 import tinymce from "tinymce";
 
 import { preProcess } from "../WordFilter";
