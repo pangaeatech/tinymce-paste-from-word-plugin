@@ -1,6 +1,6 @@
 # TinyMCE Paste from Word Plugin
 
-This plugin adds the open-source [Paste from Word](https://www.tiny.cloud/docs/plugins/opensource/paste/) functionality from the 5.x branch of TinyMCE as a plugin for the 6.x branches. The goal of this project is not to replace the premium [PowerPaste plugin](https://www.tiny.cloud/tinymce/features/powerpaste/), but to allow users who would otherwise stay on the 5.x branch solely for paste-from-word support to upgrade.
+This plugin adds the open-source [Paste from Word](https://www.tiny.cloud/docs/plugins/opensource/paste/) functionality from the 5.x branch of TinyMCE as a plugin for the 6.x branch. The goal of this project is not to replace the premium [PowerPaste plugin](https://www.tiny.cloud/tinymce/features/powerpaste/), but to allow users who would otherwise stay on the 5.x branch solely for paste-from-word support to upgrade to the 6.x branch.
 
 ### Comparison with PowerPaste
 
