@@ -37,9 +37,9 @@
     "tinymce": "6.8.4"
   },
   "devDependencies": {
-    "@babel/core": "7.25.2",
-    "@babel/preset-env": "7.25.3",
-    "@babel/preset-typescript": "7.24.7",
+    "@babel/core": "7.25.9",
+    "@babel/preset-env": "7.25.9",
+    "@babel/preset-typescript": "7.25.9",
     "@jest/globals": "29.7.0",
     "@types/jest": "29.5.12",
     "@types/node": "20.16.1",
